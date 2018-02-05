@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && jest --forceExit",
-    "start": "NODE_ENV=test sequelize db:migrate && node ./Demo/solution/server.js"
+    "start": "node ./DemoLibrary/solution/server.js"
   },
   "author": "",
   "license": "ISC",
