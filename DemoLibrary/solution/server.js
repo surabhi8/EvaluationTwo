@@ -1,9 +1,12 @@
 const Hapi =  require('hapi')
 const server = new  Hapi.Server
+const routes = require('./routes/index.js')
 server.connection({
     host: 'localhost',
     port: 8080,
   });
+
+  server.route(routes.api)
 
 if(!module.parent){
     server.start ( (err) => {
