@@ -49,7 +49,7 @@ module.exports = {
                     author: parse[i].Author,
                     id: parse[i].id,
                     name: parse[i].Name,
-                    rating:JSON.parse(values[i]).ratingß
+                    rating:JSON.parse(values[i]).rating
                   });
             }
             console.log(finalOutput);

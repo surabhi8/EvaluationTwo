@@ -11,4 +11,15 @@ describe('Testing the Hapi server that processes the requests',()=>{
         })
        
     })
+    test('Should return correct response successful get request',(done)=>{
+        const options = {
+            method:'GET',
+            url : '/getAllBooks'
+        }
+        server.inject(options,(response)=>{
+            expect(response.data).toBe(200);
+            done();
+        })
+       
+    })
     })
