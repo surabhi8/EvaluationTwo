@@ -1,5 +1,5 @@
 var https = require('https');
-
+var rp = require('request-promise');
 let accessHTTPAsync = (getURL, testCallback) => {
     https.get(getURL, (response) => {
       response.setEncoding('UTF8');
@@ -16,35 +16,45 @@ let accessHTTPAsync = (getURL, testCallback) => {
     });
   };
 module.exports = {
-    path: '/getAllBooksFromAPI1',
+    path: '/getAllBooks',
     method: 'GET',
 
     handler:function(request,reply) {
-        let resultRating = []
-        let callback2 = (data)=>{
-            let data1 = JSON.parse(data)
-            resultRating.push(data1.rating)
-            //console.log(resultRating);
+        var promise1 =  rp('https://5gj1qvkc5h.execute-api.us-east-1.amazonaws.com/dev/allBooks').then(function (htmlString) {
+            return htmlString;
+        });
+        promise1.then(function(value){
+             let resultID =[]
+             let resultRating = []
+             //console.log("Hello"+JSON.parse(value).books)
+              let parse = JSON.parse(value).books
+             for(let i=0;i<parse.length;i++) {
+                 resultID.push(parse[i].id);
         }
-        let callback1 = (data) => {
-            let parsedData = JSON.parse(data[0]).books;
-            let resultID =[]
-            for(let i=0;i<parsedData.length;i++) {
-                resultID.push(parsedData[i].id);
+        console.log(resultID)    
+        let promiseArray = []
+        for(var i=0;i<resultID.length;i++){
+        var promise3 =  rp('https://5gj1qvkc5h.execute-api.us-east-1.amazonaws.com/dev/findBookById/'+resultID[i]).then(function (htmlString) {
+            return htmlString;
+        });
+        promiseArray.push(promise3)
+        }
+        Promise.all(promiseArray).then(function(values) {
+            const finalOutput = {};
+            for(let i=0;i<parse.length;i++) {
+                if (typeof finalOutput[parse[i].Author] === 'undefined') {
+                    finalOutput[parse[i].Author] = [];
+                  }
+                  finalOutput[parse[i].Author].push({
+                    author: parse[i].Author,
+                    id: parse[i].id,
+                    name: parse[i].Name,
+                    rating:JSON.parse(values[i]).ratingß
+                  });
             }
-            for(var i=0;i<resultID.length;i++){
-            accessHTTPAsync('https://5gj1qvkc5h.execute-api.us-east-1.amazonaws.com/dev/findBookById/'+resultID[i],callback2)
-            }
-            let resultRating = [ 4.38, 4.1, 3.9, 4.45, 4.47, 3.93, 4.54, 4.02, 4.54, 4.53, 4.62, 3.92 ]
-            let finalData = []
-            for(let i=0;i<parsedData.length;i++) {
-                resultID.push(parsedData[i].id);
-            }
-            reply({
-               data:data,
-               statusCode:200
-           })
-          };
-       accessHTTPAsync('https://5gj1qvkc5h.execute-api.us-east-1.amazonaws.com/dev/allBooks',callback1);
-    }
+            console.log(finalOutput);
+            reply({data:finalOutput,statusCode:200});  
+        } ) ;
+    });
+}
 }
