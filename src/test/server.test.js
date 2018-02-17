@@ -83,7 +83,7 @@ describe('Testing the Hapi server that processes the requests', () => {
       url: '/Books/BooksWithRatings',
     };
     server.inject(options, (response) => {
-      expect(response.result.statusCode).toBe(200);
+      expect(response.result.status_code).toBe(200);
       done();
     });
   });
@@ -104,6 +104,16 @@ describe('Testing the Hapi server that processes the requests', () => {
     };
     server.inject(options, (response) => {
       expect(response.result.message).toEqual('Data Inserted');
+      done();
+    });
+  });
+  test('Should return correct status code for successful post request', (done) => {
+    const options = {
+      method: 'POST',
+      url: '/Books/BookDetails',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.status_code).toBe(201);
       done();
     });
   });
