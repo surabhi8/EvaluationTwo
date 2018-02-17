@@ -1,4 +1,5 @@
 const rp = require('request-promise');
+const Models = require('../../../models');
 
 const getAllBooksArray = () => {
   const promise1 = rp('https://5gj1qvkc5h.execute-api.us-east-1.amazonaws.com/dev/allBooks').then(htmlString => htmlString);
@@ -42,18 +43,32 @@ const getAllBooksGroupedByAuthor = (allBooksWithRatings) => {
   }
   return finalOutput;
 };
-module.exports = {
-  path: '/Books/BooksWithRatings',
-  method: 'GET',
-  handler(request, reply) {
-    getAllBooksArray().then((allBooksArray) => {
-      getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
-        const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
-        const final = getAllBooksGroupedByAuthor(allBooksWithRatings);
-        const finalOutput = final;
-        console.log('Hello', finalOutput);
-        reply({ data: finalOutput, statusCode: 200 });
+module.exports = [
+  {
+    path: '/Books/BooksWithRatings',
+    method: 'GET',
+    handler(request, reply) {
+      getAllBooksArray().then((allBooksArray) => {
+        getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
+          const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
+          const final = getAllBooksGroupedByAuthor(allBooksWithRatings);
+          const finalOutput = final;
+          reply({ data: finalOutput, statusCode: 200 });
+        });
       });
-    });
+    },
   },
-};
+  {
+    path: '/Books/BookDetails',
+    method: 'POST',
+    handler(request, reply) {
+      getAllBooksArray().then((allBooksArray) => {
+        getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
+          const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
+          Models.library.bulkInsert(allBooksWithRatings);
+        });
+      });
+    },
+  },
+];
+

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node ./DemoLibrary/solution/server.js"
+    "start": "node ./src/solution/server.js"
   },
   "author": "",
   "license": "ISC",

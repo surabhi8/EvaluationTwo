@@ -1,2 +1,4 @@
-const api = require('./api.js')
-module.exports = {api}
+const api = require('./api.js');
+
+module.exports = { api };
+

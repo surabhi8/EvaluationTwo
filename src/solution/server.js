@@ -1,20 +1,22 @@
-const Hapi =  require('hapi')
-const server = new  Hapi.Server
-const routes = require('./routes/index.js')
+const Hapi = require('hapi');
+
+const server = new Hapi.Server();
+const routes = require('./routes/index.js');
+
 server.connection({
-    host: 'localhost',
-    port: 8080,
-  });
+  host: 'localhost',
+  port: 8080,
+});
 
-  server.route(routes.api)
+server.route(routes.api);
 
-if(!module.parent){
-    server.start ( (err) => {
-        if(err){
-            throw err;
-        } 
-        console.log("Server started")
+if (!module.parent) {
+  server.start((err) => {
+    if (err) {
+      throw err;
     }
-)
+    console.log('Server started');
+  });
 }
-module.exports = server
+module.exports = server;
+
