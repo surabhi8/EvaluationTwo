@@ -127,4 +127,14 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
+  test('Should return correct message for successful post request for unliking the book', (done) => {
+    const options = {
+      method: 'GET',
+      url: '/Books/Unlike/7',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.message).toBe('Unliked');
+      done();
+    });
+  });
 });

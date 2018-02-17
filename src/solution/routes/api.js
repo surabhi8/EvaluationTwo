@@ -83,4 +83,15 @@ module.exports = [
         reply({ message: 'Liked', status_code: 200 }));
     },
   },
+  {
+    path: '/Books/Unlike/{bookId}',
+    method: 'GET',
+    handler(request, reply) {
+      Models.Novels.update(
+        { likes: 0 },
+        { where: { bookId: request.params.bookId } },
+      ).then(() =>
+        reply({ message: 'Unliked', status_code: 200 }));
+    },
+  },
 ];
