@@ -21,7 +21,7 @@ const getAllBooksWithRatings = (allBooksArray, allBooksRatings) => {
   for (let i = 0; i < allBooksArray.length; i += 1) {
     allBooksWithRatings.push({
       author: allBooksArray[i].Author,
-      id: allBooksArray[i].id,
+      bookId: allBooksArray[i].id,
       name: allBooksArray[i].Name,
       rating: JSON.parse(allBooksRatings[i]).rating,
     });
@@ -36,7 +36,7 @@ const getAllBooksGroupedByAuthor = (allBooksWithRatings) => {
     }
     finalOutput[allBooksWithRatings[i].author].push({
       author: allBooksWithRatings[i].author,
-      id: allBooksWithRatings[i].id,
+      id: allBooksWithRatings[i].bookId,
       name: allBooksWithRatings[i].name,
       rating: allBooksWithRatings[i].rating,
     });
@@ -51,8 +51,7 @@ module.exports = [
       getAllBooksArray().then((allBooksArray) => {
         getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
           const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
-          const final = getAllBooksGroupedByAuthor(allBooksWithRatings);
-          const finalOutput = final;
+          const finalOutput = getAllBooksGroupedByAuthor(allBooksWithRatings);
           reply({ data: finalOutput, statusCode: 200 });
         });
       });
@@ -65,7 +64,7 @@ module.exports = [
       getAllBooksArray().then((allBooksArray) => {
         getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
           const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
-          Models.library.bulkInsert(allBooksWithRatings);
+          Models.Novels.bulkCreate(allBooksWithRatings).then(() => reply({ message: 'Data Inserted', status_code: 201 }));
         });
       });
     },

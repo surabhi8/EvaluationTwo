@@ -97,4 +97,14 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
+  test('Should return correct response for successful post request', (done) => {
+    const options = {
+      method: 'POST',
+      url: '/Books/BookDetails',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.message).toEqual('Data Inserted');
+      done();
+    });
+  });
 });
