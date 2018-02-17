@@ -1,16 +1,17 @@
-'use strict';
+
+
 module.exports = (sequelize, DataTypes) => {
-  var Library = sequelize.define('Library', {
+  const Library = sequelize.define('Library', {
     author: DataTypes.STRING,
-    id: DataTypes.INTEGER,
+    bookId: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    rating: DataTypes.NUMBER
+    rating: DataTypes.INTEGER,
   }, {
     classMethods: {
-      associate: function(models) {
+      associate(models) {
         // associations can be defined here
-      }
-    }
+      },
+    },
   });
   return Library;
 };
