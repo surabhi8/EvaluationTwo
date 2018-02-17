@@ -64,7 +64,10 @@ module.exports = [
       getAllBooksArray().then((allBooksArray) => {
         getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
           const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
-          Models.Novels.bulkCreate(allBooksWithRatings).then(() => reply({ message: 'Data Inserted', status_code: 201 }));
+          Models.Novels.destroy({
+            where: {},
+            truncate: true,
+          }).then(Models.Novels.bulkCreate(allBooksWithRatings).then(() => reply({ message: 'Data Inserted', status_code: 201 })));
         });
       });
     },
