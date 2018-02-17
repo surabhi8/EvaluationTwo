@@ -72,5 +72,15 @@ module.exports = [
       });
     },
   },
+  {
+    path: '/Books/Like/{bookId}',
+    method: 'GET',
+    handler(request, reply) {
+      Models.Novels.update(
+        { likes: 1 },
+        { where: { bookId: request.params.bookId } },
+      ).then(() =>
+        reply({ message: 'Liked', status_code: 200 }));
+    },
+  },
 ];
-

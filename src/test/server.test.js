@@ -77,7 +77,7 @@ const JSONResponseFromAPI1 = {
          }],
 };
 describe('Testing the Hapi server that processes the requests', () => {
-  test('Should return 200 status code for successful get request', (done) => {
+  test('Should return 200 status code for successful get request for books with ratings', (done) => {
     const options = {
       method: 'GET',
       url: '/Books/BooksWithRatings',
@@ -87,7 +87,7 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
-  test('Should return correct response for successful get request', (done) => {
+  test('Should return correct response for successful get request for books with ratings', (done) => {
     const options = {
       method: 'GET',
       url: '/Books/BooksWithRatings',
@@ -97,7 +97,7 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
-  test('Should return correct response for successful post request', (done) => {
+  test('Should return correct response for successful post request for database transaction', (done) => {
     const options = {
       method: 'POST',
       url: '/Books/BookDetails',
@@ -107,13 +107,23 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
-  test('Should return correct status code for successful post request', (done) => {
+  test('Should return correct status code for successful post request for database transaction', (done) => {
     const options = {
       method: 'POST',
       url: '/Books/BookDetails',
     };
     server.inject(options, (response) => {
       expect(response.result.status_code).toBe(201);
+      done();
+    });
+  });
+  test('Should return correct message for successful post request for liking the book', (done) => {
+    const options = {
+      method: 'GET',
+      url: '/Books/Like/7',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.message).toBe('Liked');
       done();
     });
   });

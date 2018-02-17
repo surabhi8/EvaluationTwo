@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     bookId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     rating: DataTypes.STRING,
+    likes: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate(models) {

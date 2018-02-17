@@ -20,6 +20,10 @@ module.exports = {
     rating: {
       type: Sequelize.STRING,
     },
+    likes: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
