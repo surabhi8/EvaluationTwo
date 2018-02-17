@@ -52,7 +52,7 @@ module.exports = [
         getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
           const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
           const finalOutput = getAllBooksGroupedByAuthor(allBooksWithRatings);
-          reply({ data: finalOutput, statusCode: 200 });
+          reply({ data: finalOutput, status_code: 200 });
         });
       });
     },
