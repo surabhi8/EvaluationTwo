@@ -91,10 +91,13 @@ module.exports = [
       Models.Likes.update(
         { likes: 0 },
         { where: { bookId: request.params.bookId } },
-      ).then(() =>
-        reply({ message: 'Unliked', status_code: 200 })).catch(() => {
-        reply({ message: 'Invalid bookId', status_code: 500 });
-      });
+      )
+        .then((obj) => {
+          if (obj[0] === 1) reply({ message: 'Unliked', status_code: 200 });
+          else {
+            reply({ message: 'Invalid book id', status_code: 500 });
+          }
+        });
     },
   },
 ];
