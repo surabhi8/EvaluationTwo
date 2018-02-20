@@ -76,7 +76,7 @@ module.exports = [
     path: '/Books/Like/{bookId}',
     method: 'GET',
     handler(request, reply) {
-      Models.Likes.create({
+      Models.Likes.upsert({
         bookId: request.params.bookId,
         likes: 1,
       }).then(() => reply({ message: 'Liked', status_code: 200 })).catch(() => {
@@ -88,16 +88,12 @@ module.exports = [
     path: '/Books/Unlike/{bookId}',
     method: 'GET',
     handler(request, reply) {
-      Models.Likes.update(
-        { likes: 0 },
-        { where: { bookId: request.params.bookId } },
-      )
-        .then((obj) => {
-          if (obj[0] === 1) reply({ message: 'Unliked', status_code: 200 });
-          else {
-            reply({ message: 'Invalid book id', status_code: 500 });
-          }
-        });
+      Models.Likes.upsert({
+        bookId: request.params.bookId,
+        likes: 0,
+      }).then(() => {
+        reply({ message: 'Unliked', status_code: 200 });
+      });
     },
   },
 ];
