@@ -127,6 +127,16 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
+  test('Should return correct statusCode for successful post request for liking the book', (done) => {
+    const options = {
+      method: 'GET',
+      url: '/Books/Like/7',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.status_code).toBe(200);
+      done();
+    });
+  });
   test('Should return correct message for successful post request for unliking the book', (done) => {
     const options = {
       method: 'GET',
@@ -134,6 +144,16 @@ describe('Testing the Hapi server that processes the requests', () => {
     };
     server.inject(options, (response) => {
       expect(response.result.message).toBe('Unliked');
+      done();
+    });
+  });
+  test('Should return correct statusCode for successful post request for unliking the book', (done) => {
+    const options = {
+      method: 'GET',
+      url: '/Books/Unlike/7',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.status_code).toBe(200);
       done();
     });
   });
