@@ -39,7 +39,7 @@ module.exports = [
         bookId: request.params.bookId,
         likes: 1,
       }).then(() => reply({ message: 'Liked', status_code: 200 })).catch(() =>
-        reply({ message: 'Invalid bookId', status_code: 500 }));
+        reply({ message: 'Invalid bookId to like', status_code: 500 }));
     },
   },
   {
@@ -50,7 +50,7 @@ module.exports = [
         bookId: request.params.bookId,
         likes: 0,
       }).then(() => reply({ message: 'Unliked', status_code: 200 })).catch(() =>
-        reply({ message: 'Invalid bookId', status_code: 500 }));
+        reply({ message: 'Invalid bookId to unlike', status_code: 500 }));
     },
   },
 ];
