@@ -74,26 +74,24 @@ module.exports = [
   },
   {
     path: '/Books/Like/{bookId}',
-    method: 'GET',
+    method: 'POST',
     handler(request, reply) {
       Models.Likes.upsert({
         bookId: request.params.bookId,
         likes: 1,
-      }).then(() => reply({ message: 'Liked', status_code: 200 })).catch(() => {
-        reply({ message: 'Invalid bookId', status_code: 500 });
-      });
+      }).then(() => reply({ message: 'Liked', status_code: 200 })).catch(() =>
+        reply({ message: 'Invalid bookId', status_code: 500 }));
     },
   },
   {
     path: '/Books/Unlike/{bookId}',
-    method: 'GET',
+    method: 'POST',
     handler(request, reply) {
       Models.Likes.upsert({
         bookId: request.params.bookId,
         likes: 0,
-      }).then(() => {
-        reply({ message: 'Unliked', status_code: 200 });
-      });
+      }).then(() => reply({ message: 'Unliked', status_code: 200 })).catch(() =>
+        reply({ message: 'Invalid bookId', status_code: 500 }));
     },
   },
 ];

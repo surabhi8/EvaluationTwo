@@ -76,7 +76,7 @@ const JSONResponseFromAPI1 = {
            rating: 3.92,
          }],
 };
-describe('Testing the Hapi server that processes the requests', () => {
+describe('Testing the Hapi server that processes the API1 and API2 requests', () => {
   test('Should return 200 status code for successful get request for books with ratings', (done) => {
     const options = {
       method: 'GET',
@@ -117,9 +117,11 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
+});
+describe('Testing the Hapi server that processes the API3', () => {
   test('Should return correct message for successful post request for liking the book', (done) => {
     const options = {
-      method: 'GET',
+      method: 'POST',
       url: '/Books/Like/7',
     };
     server.inject(options, (response) => {
@@ -129,7 +131,7 @@ describe('Testing the Hapi server that processes the requests', () => {
   });
   test('Should return correct statusCode for successful post request for liking the book', (done) => {
     const options = {
-      method: 'GET',
+      method: 'POST',
       url: '/Books/Like/7',
     };
     server.inject(options, (response) => {
@@ -137,9 +139,19 @@ describe('Testing the Hapi server that processes the requests', () => {
       done();
     });
   });
+  test('Should return correct  status_code for bad request for unliking the invalid bookId', (done) => {
+    const options = {
+      method: 'POST',
+      url: '/Books/Like/76865',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.status_code).toEqual(500);
+      done();
+    });
+  });
   test('Should return correct message for successful post request for unliking the book', (done) => {
     const options = {
-      method: 'GET',
+      method: 'POST',
       url: '/Books/Unlike/7',
     };
     server.inject(options, (response) => {
@@ -149,11 +161,21 @@ describe('Testing the Hapi server that processes the requests', () => {
   });
   test('Should return correct statusCode for successful post request for unliking the book', (done) => {
     const options = {
-      method: 'GET',
+      method: 'POST',
       url: '/Books/Unlike/7',
     };
     server.inject(options, (response) => {
       expect(response.result.status_code).toBe(200);
+      done();
+    });
+  });
+  test('Should return correct  status_code for bad request for unliking the invalid bookId', (done) => {
+    const options = {
+      method: 'POST',
+      url: '/Books/Unlike/76865',
+    };
+    server.inject(options, (response) => {
+      expect(response.result.status_code).toBe(500);
       done();
     });
   });
