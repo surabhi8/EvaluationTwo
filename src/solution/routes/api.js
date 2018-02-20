@@ -64,10 +64,10 @@ module.exports = [
       getAllBooksArray().then((allBooksArray) => {
         getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
           const allBooksWithRatings = getAllBooksWithRatings(allBooksArray, allBooksRatings);
-          Models.Novels.destroy({
-            where: {},
-            truncate: true,
-          }).then(Models.Novels.bulkCreate(allBooksWithRatings).then(() => reply({ message: 'Data Inserted', status_code: 201 })));
+          allBooksWithRatings.map((books) => {
+            Models.Novels.upsert(books);
+          });
+          reply({ message: 'Data Inserted', status_code: 201 });
         });
       });
     },
@@ -76,22 +76,25 @@ module.exports = [
     path: '/Books/Like/{bookId}',
     method: 'GET',
     handler(request, reply) {
-      Models.Novels.update(
-        { likes: 1 },
-        { where: { bookId: request.params.bookId } },
-      ).then(() =>
-        reply({ message: 'Liked', status_code: 200 }));
+      Models.Likes.create({
+        bookId: request.params.bookId,
+        likes: 1,
+      }).then(() => reply({ message: 'Liked', status_code: 200 })).catch(() => {
+        reply({ message: 'Invalid bookId', status_code: 500 });
+      });
     },
   },
   {
     path: '/Books/Unlike/{bookId}',
     method: 'GET',
     handler(request, reply) {
-      Models.Novels.update(
+      Models.Likes.update(
         { likes: 0 },
         { where: { bookId: request.params.bookId } },
       ).then(() =>
-        reply({ message: 'Unliked', status_code: 200 }));
+        reply({ message: 'Unliked', status_code: 200 })).catch(() => {
+        reply({ message: 'Invalid bookId', status_code: 500 });
+      });
     },
   },
 ];
