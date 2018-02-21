@@ -32,6 +32,29 @@ module.exports = [
     },
   },
   {
+    path: '/retrieve',
+    method: 'POST',
+    handler(request, response) {
+      helpers.getAllBooksArray().then((allBooksArray) => {
+        helpers.getAllBooksRatings(allBooksArray).then((allBooksRatings) => {
+          const allBooksWithRatings = helpers.getAllBooksWithRatings(allBooksArray, allBooksRatings);
+          allBooksWithRatings.map((books) => {
+            Models.Novels.upsert(books);
+          });
+          Models.Novels.findAll({
+            attributes: ['author', 'name', 'bookId', 'rating'],
+          }).then((booksArray) => {
+            console.log(booksArray);
+            response({
+              booksArray,
+              statusCode: 200,
+            });
+          }).catch(err => console.log(err));
+        });
+      });
+    },
+  },
+  {
     path: '/Books/Like/{bookId}',
     method: 'POST',
     handler(request, reply) {
