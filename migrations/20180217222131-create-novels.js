@@ -21,9 +21,6 @@ module.exports = {
     rating: {
       type: Sequelize.STRING,
     },
-    Likes: {
-      type: Sequelize.INTEGER,
-    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
